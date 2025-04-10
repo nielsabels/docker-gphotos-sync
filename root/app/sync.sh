@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/bin/sh
 
 echo "INFO: Starting sync.sh PID $$ $(date)"
 
@@ -8,7 +8,7 @@ fi
 
 set -e
 
-gphotos-cdp -v -dev -headless -dldir /download -run /app/fix_time.sh
+gphotos-cdp -v -dev -dldir /download -run /app/fix_time.sh
 
 echo "INFO: Completed sync.sh PID $$ $(date)"
 

@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/bin/sh
 
 if [ -z "$CRON" ]; then
 	echo "
@@ -26,6 +26,8 @@ Initializing cron
 $CRON
 "
 crontab -u abc -d # Delete any existing crontab.
-echo "$CRON /usr/bin/flock -n /app/sync.lock /app/sync.sh" >/tmp/crontab.tmp
+#echo "$CRON /usr/bin/flock -n /app/sync.lock /app/sync.sh" >/tmp/crontab.tmp
+echo "$CRON /usr/bin/flock -n /app/sync.lock xvfb-run -a -s \"-screen 0 1280x800x24\" /app/sync.sh" >/tmp/crontab.tmp
+
 crontab -u abc /tmp/crontab.tmp
 rm /tmp/crontab.tmp
