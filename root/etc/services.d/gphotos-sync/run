@@ -1,0 +1,9 @@
+#!/bin/sh
+# ./root/etc/s6-rc.d/user/contents.d/gphotos-sync/run
+# Runs the sync app with Xvfb
+
+echo "[gphotos-sync service] Starting /app/sync.sh via xvfb-run..."
+
+# Use xvfb-run to provide virtual display
+# Optional: Use flock if needed: exec /usr/bin/flock -n /app/sync.lock xvfb-run ...
+exec xvfb-run -a -s "-screen 0 1280x800x24" /app/sync.sh
