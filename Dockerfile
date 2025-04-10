@@ -16,8 +16,8 @@ ENV GO111MODULE=on
 RUN go install github.com/perkeep/gphotos-cdp@e9d1979707191993f1c879ae93f8dd810697fd6e
 
 
-FROM crazymax/alpine-s6:3.17-edge
-LABEL maintainer="Jake Wharton <docker@jakewharton.com>"
+FROM crazymax/alpine-s6:latest
+LABEL maintainer="Niels Abels <gphotossync@nielsabels.nl>"
 
 ENV \
     # Fail if cont-init scripts exit with non-zero code.
@@ -30,20 +30,23 @@ ENV \
     TZ="" \
     CHROMIUM_USER_FLAGS="--no-sandbox"
 
-# Installs latest Chromium package.
-RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community > /etc/apk/repositories \
-    && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
-    && apk add --no-cache \
-      libstdc++@edge \
-      chromium@edge \
-      harfbuzz@edge \
-      nss@edge \
-      freetype@edge \
-      ttf-freefont@edge \
-      tzdata@edge \
-      curl@edge \
-    && rm -rf /var/cache/* \
-    && mkdir /var/cache/apk
+ && apk add --no-cache \
+    chromium \
+    xvfb \
+    xvfb-run \
+    xauth \
+    nss \
+    freetype \
+    harfbuzz \
+    ttf-freefont \
+    tzdata \
+    curl \
+    s6-rc \
+ && rm -rf /var/cache/* \
+ && mkdir /var/cache/apk
 
 COPY --from=build /go/bin/gphotos-cdp /usr/bin/jhead /usr/bin/
+
 COPY root/ /
+RUN chmod +x /etc/cont-init.d/*.sh
+RUN find /etc/services.d/ -name run -exec chmod +x {} \;
