@@ -1,0 +1,10 @@
+services:
+  gphotos_sync:
+    build: .
+    container_name: gphotos_sync_runner
+    volumes:
+      - ./config:/tmp/gphotos-cdp
+      - ./downloads:/download
+    stdin_open: true  
+    tty: true         
+    shm_size: '2gb' 
