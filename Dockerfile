@@ -13,7 +13,7 @@ RUN wget http://www.sentex.net/~mwandel/jhead/jhead-$JHEAD_VERSION.tar.gz \
     && make install
 
 ENV GO111MODULE=on
-RUN go install github.com/perkeep/gphotos-cdp@e9d1979707191993f1c879ae93f8dd810697fd6e
+RUN go install github.com/nielsabels/gphotos-cdp@a0f64212b6081bb21a9fb60336c6c5694889f35b
 
 
 FROM crazymax/alpine-s6:latest
@@ -30,6 +30,7 @@ ENV \
     TZ="" \
     CHROMIUM_USER_FLAGS="--no-sandbox"
 
+RUN echo "Installing Chromium, Xvfb, and dependencies..." \
  && apk add --no-cache \
     chromium \
     xvfb \
